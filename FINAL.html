@@ -1,0 +1,939 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EcoSabotage · Barranquilla No Se Apaga</title>
+<style>
+/* ============================================================
+   1. TEMA CYBERPUNK / GAMER NEÓN
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:wght@400;700&display=swap');
+
+:root{
+  --fondo:#050714; --panel:rgba(19,23,54,0.7); --panel2:#1b2048; --linea:#2a3070;
+  --texto:#e9ecff; --suave:#9aa2d6;
+  --cian:#00f3ff; --magenta:#ff0055; --ambar:#ffea00; --verde:#00ff88;
+  --display:'Chakra Petch', system-ui, sans-serif;
+  --cuerpo:'DM Sans', system-ui, sans-serif;
+  --cctv-scan: rgba(255, 255, 255, 0.03);
+}
+*{box-sizing:border-box}
+html,body{margin:0; overflow-x: hidden;}
+body{
+  min-height:100vh; color:var(--texto); font-family:var(--cuerpo);
+  background: 
+    radial-gradient(circle at 15% 50%, rgba(0, 243, 255, 0.1), transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(255, 0, 85, 0.15), transparent 50%),
+    var(--fondo);
+  background-attachment:fixed;
+}
+body::before {
+  content:""; position:fixed; top:0; left:0; width:100vw; height:100vh;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, var(--cctv-scan) 2px, var(--cctv-scan) 4px);
+  pointer-events:none; z-index:999; opacity:0.6;
+}
+
+.wrap{max-width:1100px;margin:0 auto;padding:0 18px 70px; position:relative; z-index:10;}
+h1,h2,h3,strong,.marca,.banner{font-family:var(--display)}
+h1{font-size:clamp(2rem,6vw,3.5rem);line-height:1.1;margin:0 0 12px; text-transform:uppercase; letter-spacing:1px;}
+h2{font-size:1.6rem;margin:22px 0 10px; text-transform:uppercase; border-bottom:1px solid var(--linea); padding-bottom:5px; color:var(--cian);}
+h3{margin:0 0 6px;font-size:1.2rem; color:#fff;}
+p{line-height:1.5}
+.nota{color:var(--suave);margin:0 0 14px;font-size:.95rem}
+.vacio{color:var(--suave);padding:30px;border:1px dashed var(--cian);border-radius:12px;text-align:center; background:rgba(0,243,255,0.05);}
+
+/* ---------- Header flotante ---------- */
+.barra{
+  position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  padding:12px 20px;margin:0 -18px;
+  background:rgba(5,7,20,0.85); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--cian); box-shadow: 0 4px 20px rgba(0,243,255,0.15);
+}
+.marca{font-size:1.6rem;font-weight:700; font-style:italic; letter-spacing: 1px;}
+.marca span{color:var(--magenta);text-shadow:0 0 15px rgba(255,0,85,.8)}
+.marca small{display:block;font-family:var(--cuerpo);font-weight:400;font-size:.75rem;color:var(--cian); font-style:normal; letter-spacing:0;}
+.cuenta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+
+.saldo{background:rgba(0,0,0,0.5);border:1px solid var(--ambar);border-radius:6px;padding:7px 15px;color:var(--ambar);transition:all .3s;}
+.saldo strong{font-size:1.2rem; text-shadow:0 0 10px var(--ambar);}
+.saldo.flash{box-shadow:0 0 24px rgba(255,234,0,.9); background:var(--ambar); color:#000; transform:scale(1.05);}
+
+.chip{padding:6px 12px;border-radius:4px;border:1px solid var(--cian);color:var(--cian);font-size:.85rem;font-weight:700; text-transform:uppercase; background:rgba(0,243,255,0.1);}
+.chip.auditor{border-color:var(--magenta);color:var(--magenta); background:rgba(255,0,85,0.1); box-shadow:0 0 10px rgba(255,0,85,0.4);}
+
+select,input[type=text]{
+  background:rgba(0,0,0,0.6);border:1px solid var(--cian);color:var(--cian);border-radius:6px;padding:9px 12px;font:inherit;
+  outline:none; transition:0.3s; font-family:var(--display); font-weight:700; cursor:pointer;
+}
+select:hover, input[type=text]:focus { box-shadow:0 0 15px rgba(0,243,255,0.4); }
+select option { background: var(--fondo); color:var(--texto); }
+
+.btn-help {
+  background: transparent; border: 1px solid var(--verde); color: var(--verde); border-radius: 50%;
+  width: 36px; height: 36px; font-weight: bold; font-size: 1.2rem; cursor: pointer; transition: 0.3s;
+  box-shadow: 0 0 10px rgba(0,255,136,0.3);
+}
+.btn-help:hover { background: var(--verde); color: #000; box-shadow: 0 0 20px rgba(0,255,136,0.8); transform:scale(1.1); }
+/* Botón de ayuda flotante (siempre visible) */
+.btn-help.btn-flota{
+  position:fixed; right:20px; bottom:20px; z-index:40; width:48px; height:48px; font-size:1.5rem;
+  background:rgba(5,7,20,0.85); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  font-family:var(--display);
+}
+
+/* ---------- Botones Cyberpunk ---------- */
+button{font:inherit;cursor:pointer}
+.btn{
+  border:1px solid transparent;border-radius:4px;padding:12px 20px;font-weight:700;color:#000;
+  background:var(--cian);box-shadow:0 0 15px rgba(0,243,255,.4);transition:all .2s ease-out;
+  text-transform:uppercase; font-family:var(--display); letter-spacing:1px; position:relative; overflow:hidden;
+}
+.btn::before { content:''; position:absolute; top:0; left:-100%; width:50%; height:100%; background:linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transition:0.5s; }
+.btn:hover::before { left:100%; }
+.btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 0 25px rgba(0,243,255,.8); border-color:#fff;}
+.btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none; filter:grayscale(100%);}
+.btn.rojo{background:var(--magenta);color:#fff;box-shadow:0 0 15px rgba(255,0,85,.5);}
+.btn.rojo:hover:not(:disabled){box-shadow:0 0 25px rgba(255,0,85,.9);}
+.btn.ambar{background:var(--ambar);box-shadow:0 0 15px rgba(255,234,0,.5); color:#000;}
+.btn.grande{font-size:1.2rem;padding:15px 30px;}
+.link{background:none;border:0;color:var(--cian);text-decoration:none;padding:6px 10px; transition:0.3s; border-bottom:1px dashed transparent;}
+.link:hover{color:#fff; border-bottom:1px dashed var(--cian); text-shadow:0 0 8px var(--cian);}
+
+/* ---------- Pestañas ---------- */
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid rgba(0,243,255,0.3);margin:15px 0 20px;}
+.tabs button{
+  background:rgba(0,0,0,0.4);border:1px solid transparent; border-bottom:none; color:var(--suave);
+  padding:12px 18px; border-radius:8px 8px 0 0; font-family:var(--display); text-transform:uppercase; transition:0.3s;
+}
+.tabs button:hover { background:rgba(0,243,255,0.1); color:#fff; }
+.tabs button.on{color:var(--cian); background:var(--panel); border-color:var(--cian); border-bottom:2px solid var(--fondo); box-shadow:0 -4px 15px rgba(0,243,255,0.1);}
+
+/* ---------- Tarjetas Hover Suave ---------- */
+.rejilla{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+.card{
+  background:var(--panel);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:18px;
+  display:flex;flex-direction:column;gap:8px; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  transition:transform 0.3s, border-color 0.3s, box-shadow 0.3s; position:relative;
+}
+.card:hover { transform:translateY(-4px); border-color:var(--cian); box-shadow:0 8px 25px rgba(0,243,255,0.15); }
+.card p{margin:0;color:var(--texto);font-size:.95rem;}
+.card .meta{color:var(--ambar);font-size:.9rem; font-weight:bold; font-family:var(--display);}
+.card .btn{margin-top:auto}
+
+/* ---------- CCTV FOTO AUDITOR ---------- */
+.card.foto{padding:0;overflow:hidden; border:2px solid #333;}
+.card.foto:hover { border-color:var(--magenta); box-shadow:0 0 20px rgba(255,0,85,0.4); }
+.card.foto img{width:100%;height:180px;object-fit:cover;display:block;background:#000; transition:transform 0.5s ease;}
+.card.foto:hover img { transform:scale(1.1); opacity:0.8; }
+.card.foto .cuerpo{padding:14px;display:flex;flex-direction:column;gap:8px; background:linear-gradient(0deg, var(--fondo), transparent); position:relative; z-index:2;}
+.cctv-overlay { position:absolute; top:10px; right:10px; background:rgba(255,0,85,0.8); color:#fff; padding:2px 6px; font-size:0.7rem; font-weight:bold; letter-spacing:1px; z-index:3; border-radius:2px; animation:pulso 2s infinite; }
+.watermark { position:absolute; bottom:55%; right:10px; color:rgba(255,255,255,0.5); font-family:monospace; font-size:0.8rem; z-index:3; text-shadow:1px 1px 2px #000; pointer-events:none;}
+
+.card.sabot{border-color:var(--magenta); opacity:.8;}
+.card.sabot:hover{border-color:var(--magenta); box-shadow:0 0 20px rgba(255,0,85,0.4);}
+.card.gana{border-color:var(--verde);box-shadow:0 0 20px rgba(0,255,136,.3); background:rgba(0,255,136,0.05);}
+
+.reloj{font-family:var(--display);font-size:2rem;color:var(--cian); text-shadow:0 0 10px var(--cian); text-align:center; padding:10px 0;}
+.reloj.urgente{color:var(--magenta); text-shadow:0 0 15px var(--magenta); animation:pulso 1s infinite}
+@keyframes pulso{50%{opacity:.4}}
+
+.etiqueta{font-size:.85rem;font-weight:700;padding:4px 10px;border-radius:4px;display:inline-block;width:fit-content; text-transform:uppercase; letter-spacing:0.5px;}
+.et-pend{background:rgba(255,234,0,.2);color:var(--ambar); border:1px solid var(--ambar);}
+.et-ok{background:rgba(0,255,136,.2);color:var(--verde); border:1px solid var(--verde);}
+.et-sab{background:rgba(255,0,85,.2);color:var(--magenta); border:1px solid var(--magenta);}
+
+.banner{text-align:center;font-size:1.4rem;padding:15px;border-radius:6px;margin:15px 0;background:rgba(0,243,255,.1);border:1px solid var(--cian);color:var(--cian); text-transform:uppercase; letter-spacing:2px; text-shadow:0 0 8px var(--cian);}
+.banner.auditor{background:rgba(255,0,85,.1);border-color:var(--magenta);color:var(--magenta); text-shadow:0 0 8px var(--magenta);}
+.fila{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+/* ---------- Lobby ---------- */
+.entrada{max-width:700px;margin:40px auto;text-align:center; background:var(--panel); padding:30px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); backdrop-filter:blur(10px);}
+.entrada p{color:var(--texto); font-size:1.05rem;}
+.asientos{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin:25px 0;text-align:left}
+.asiento{background:rgba(0,0,0,0.5);border:1px dashed var(--suave);border-radius:8px;padding:16px;min-height:100px;color:var(--suave); transition:0.3s;}
+.asiento.lleno{border-style:solid;border-color:rgba(0,243,255,0.5);color:var(--texto);box-shadow:inset 0 0 15px rgba(0,243,255,.05);}
+.asiento.activo{border-color:var(--ambar);box-shadow:0 0 20px rgba(255,234,0,.2); background:rgba(255,234,0,0.05);}
+.asiento .rol{font-size:.9rem;margin:6px 0 10px;color:var(--suave); text-transform:uppercase; font-family:var(--display);}
+.asiento .rol.aud{color:var(--magenta);font-weight:700; text-shadow:0 0 8px var(--magenta);}
+.asiento .rol.trab{color:var(--cian);font-weight:700; text-shadow:0 0 8px var(--cian);}
+
+/* ---------- Modal y Animaciones Gamer ---------- */
+.fondo-modal{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(5px);display:grid;place-items:center;z-index:50;padding:20px}
+.modal{background:#0a0c1a;border:2px solid var(--cian);border-radius:8px;padding:25px;max-width:480px;width:100%;animation:entra .4s cubic-bezier(.2,.9,.3,1.2); box-shadow:0 0 30px rgba(0,243,255,0.2); position:relative;}
+.modal.glitch-modal { border-color:var(--magenta); box-shadow:0 0 40px rgba(255,0,85,0.4); animation:glitch-anim 0.4s ease-out; }
+.modal.shield-modal { border-color:var(--verde); box-shadow:0 0 40px rgba(0,255,136,0.3); }
+
+@keyframes glitch-anim {
+  0% { transform: scale(0.9) translate(5px, 5px); filter: hue-rotate(90deg); }
+  20% { transform: scale(1.05) translate(-5px, -5px); filter: contrast(200%); }
+  40% { transform: scale(0.95) translate(5px, -5px); }
+  100% { transform: scale(1) translate(0); }
+}
+@keyframes entra{from{transform:scale(.8) translateY(20px);opacity:0}to{transform:none;opacity:1}}
+
+.modal img{width:100%;border-radius:6px;margin:12px 0;display:block; border:1px solid #333;}
+.revela{text-align:center}
+.revela h1{font-size:clamp(2.5rem,8vw,3.5rem);color:var(--verde);text-shadow:0 0 20px var(--verde); margin-bottom:5px;}
+.revela.aud h1{color:var(--magenta);text-shadow:0 0 20px var(--magenta); font-family:monospace; letter-spacing: -2px;}
+.glitch-text { position:relative; display:inline-block; }
+.glitch-text::before, .glitch-text::after { content:attr(data-text); position:absolute; top:0; left:0; width:100%; height:100%; opacity:0.8; }
+.glitch-text::before { left:2px; text-shadow:-2px 0 var(--cian); animation:glitch-bot 2s infinite linear alternate-reverse; }
+.glitch-text::after { left:-2px; text-shadow:2px 0 var(--ambar); animation:glitch-bot 3s infinite linear alternate-reverse; }
+@keyframes glitch-bot { 0% { clip-path: inset(20% 0 80% 0); } 20% { clip-path: inset(60% 0 10% 0); } 100% { clip-path: inset(10% 0 40% 0); } }
+
+/* ---------- Tutorial (Onboarding) ---------- */
+.tut-paso{text-align:center; animation:entra .35s both;}
+.tut-ilustra{display:block;margin:6px auto 12px;width:100%;max-width:300px;height:auto;}
+.tut-titulo{font-family:var(--display);font-size:1.4rem;text-transform:uppercase;margin:0 0 8px;}
+.tut-texto{color:var(--texto);font-size:1rem;margin:0 0 6px;}
+.tut-puntos{display:flex;justify-content:center;gap:8px;margin:16px 0 4px;}
+.tut-puntos i{display:block;width:10px;height:10px;border-radius:50%;background:var(--linea);transition:.3s;}
+.tut-puntos i.on{background:var(--cian);box-shadow:0 0 10px var(--cian);transform:scale(1.25);}
+.tut-nav{display:flex;gap:10px;margin-top:16px;}
+.tut-nav .btn{flex:1;}
+.tut-nav .link{flex:0 0 auto;color:var(--suave);}
+.tut-rayo{animation:pulso 2s infinite;}
+
+/* ---------- Ruleta ---------- */
+.centro{text-align:center}
+.ruleta-wrap{position:relative;width:320px;height:320px;margin:40px auto}
+.puntero{position:absolute;top:-20px;left:50%;margin-left:-15px;border:15px solid transparent;border-top:30px solid #fff;z-index:2;filter:drop-shadow(0 0 10px var(--ambar))}
+.rueda{
+  position:absolute;inset:0;border-radius:50%;border:6px solid var(--panel2);
+  background:conic-gradient(#ff0055 0 72deg, #1d2a6e 72deg 144deg, #00f3ff 144deg 216deg, #ffea00 216deg 288deg, #00ff88 288deg 360deg);
+  box-shadow:0 0 50px rgba(0,243,255,.2),inset 0 0 40px rgba(0,0,0,.6); transition:transform 4s cubic-bezier(0.1, 0.9, 0.2, 1);
+}
+.sector{position:absolute;left:50%;top:50%;width:70px;height:30px;margin:-15px 0 0 -35px;font-family:var(--display);font-weight:900;font-size:1.5rem;color:#fff;text-shadow:2px 2px 0 #000, 0 0 10px rgba(255,255,255,0.5)}
+.resultado{margin:30px auto 0;max-width:400px;padding:20px;border-radius:8px;background:var(--panel);border:2px solid var(--verde);display:flex;flex-direction:column;gap:5px;animation:entra .5s both}
+.resultado strong{font-size:2.8rem;color:var(--verde); text-shadow:0 0 15px var(--verde);}
+.resultado.pierde{border-color:var(--magenta)} .resultado.pierde strong{color:var(--magenta); text-shadow:0 0 15px var(--magenta);}
+.resultado.jackpot{border-color:var(--ambar);box-shadow:0 0 40px rgba(255,234,0,.4); background:rgba(255,234,0,0.1);} .resultado.jackpot strong{color:var(--ambar);font-size:3.2rem;}
+
+/* ---------- Subasta / Impacto ODS ---------- */
+.puja{font-family:var(--display);font-size:2.5rem;color:var(--ambar)!important; text-shadow:0 0 10px rgba(255,234,0,0.5); margin:5px 0;}
+.cierre{font-family:var(--display);font-size:1.8rem;color:var(--magenta); text-shadow:0 0 10px var(--magenta);}
+.metricas{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin:20px 0}
+.metrica{background:var(--panel);border:1px solid var(--linea);border-radius:8px;padding:25px; text-align:center; position:relative; overflow:hidden;}
+.metrica::after { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle, rgba(0,243,255,0.1) 0%, transparent 60%); pointer-events:none;}
+.metrica strong{display:block;font-size:clamp(2.2rem,5vw,3.2rem);color:var(--verde);text-shadow:0 0 20px rgba(0,255,136,.5);overflow-wrap:anywhere; font-family:var(--display);}
+.metrica span{color:var(--texto); font-size:1.1rem; text-transform:uppercase; letter-spacing:1px; margin-top:5px; display:block;}
+
+/* Gráfico CREG */
+.grafico-creg { background:rgba(0,0,0,0.4); padding:20px; border-radius:8px; border:1px solid var(--cian); margin:20px 0; }
+.barra-wrap { width:100%; background:#222; height:30px; border-radius:15px; margin:15px 0; overflow:hidden; position:relative; border:1px solid #444;}
+.barra-llena { height:100%; background:linear-gradient(90deg, var(--cian), var(--verde)); transition:width 1.5s ease-out; width:0%; display:flex; align-items:center; justify-content:flex-end; padding-right:10px; color:#000; font-weight:bold;}
+.meta-linea { position:absolute; left:90%; top:0; height:100%; border-left:3px dashed var(--ambar); z-index:2;}
+.meta-texto { position:absolute; left:90%; top:-25px; transform:translateX(-50%); color:var(--ambar); font-size:0.8rem; font-weight:bold;}
+
+.ods{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:15px;margin:20px 0}
+.ods div{background:rgba(27,32,72,0.6);border-left:4px solid var(--ambar);padding:18px;border-radius:0 8px 8px 0;color:var(--texto); border-top:1px solid rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.05); border-right:1px solid rgba(255,255,255,0.05);}
+.ods b{color:var(--ambar);display:block;margin-bottom:8px;font-family:var(--display); font-size:1.1rem;}
+
+/* ---------- Avisos, Efectos y Confeti ---------- */
+#toasts{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);z-index:100;display:flex;flex-direction:column;gap:10px;width:min(90vw,480px)}
+.toast{padding:14px 20px;border-radius:6px;background:rgba(0,255,136,0.1);border:1px solid var(--verde);color:var(--verde);backdrop-filter:blur(10px); animation:entra .3s both; font-weight:bold; text-align:center; box-shadow:0 5px 15px rgba(0,0,0,0.5);}
+.toast.error{background:rgba(255,0,85,0.1);border-color:var(--magenta);color:#ffb3c6; text-shadow:0 0 5px var(--magenta);}
+.flota{position:fixed;z-index:90;font-family:var(--display);font-size:2.5rem;font-weight:900;pointer-events:none;animation:sube 2s ease-out forwards;text-shadow:0 4px 15px currentColor}
+@keyframes sube{from{transform:translate(-50%, 0) scale(0.8);opacity:1}to{transform:translate(-50%, -120px) scale(1.2);opacity:0}}
+
+.confeti { position:fixed; z-index:9999; animation: cae linear forwards; top:-10px; }
+@keyframes cae { 
+  0% { transform: translateY(0) rotate(0deg); opacity:1;} 
+  100% { transform: translateY(100vh) rotate(720deg); opacity:0;} 
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--fondo); }
+::-webkit-scrollbar-thumb { background: var(--cian); border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="cabecera"></div>
+  <div id="vista"></div>
+</div>
+<div id="modal"></div>
+<div id="toasts"></div>
+<button class="btn-help btn-flota" data-a="mostrarTutorial" title="Cómo jugar" aria-label="Cómo jugar">?</button>
+
+<script>
+/* ============================================================
+   AUDIO GAMER (Web Audio API) - Sin archivos externos
+   Los navegadores bloquean el audio hasta la primera interacción:
+   se desbloquea en el primer clic / toque / tecla del usuario.
+   ============================================================ */
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+let audioInit = false;
+
+function initAudio() {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  if (!audioInit) {
+    // Pulso silencioso: termina de desbloquear el audio en iOS/Safari
+    try {
+      const b = audioCtx.createBuffer(1, 1, 22050), s = audioCtx.createBufferSource();
+      s.buffer = b; s.connect(audioCtx.destination); s.start(0);
+    } catch(e) {}
+    audioInit = true;
+  }
+}
+['pointerdown','click','touchstart','keydown'].forEach(ev =>
+  document.addEventListener(ev, initAudio, {passive:true})
+);
+
+function playTone(freq, type, duration, vol, delay=0) {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  const t0 = audioCtx.currentTime + delay;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = type; osc.frequency.setValueAtTime(freq, t0);
+  gain.gain.setValueAtTime(vol, t0);
+  gain.gain.exponentialRampToValueAtTime(0.01, t0 + duration);
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.start(t0); osc.stop(t0 + duration);
+}
+const FX = {
+  // Monedas: tarea completada / puja / subasta ganada
+  coin: () => { playTone(988, 'square', 0.1, 0.05); playTone(1318, 'square', 0.2, 0.05, 0.1); },
+  // Alarma cyberpunk: el Auditor sabotea con éxito
+  alarm: () => { for(let i=0;i<4;i++){ playTone(300, 'sawtooth', 0.2, 0.1, i*0.4); playTone(400, 'sawtooth', 0.2, 0.1, i*0.4+0.2); } },
+  // Fanfarria ganadora
+  win: () => { [523,659,784,1046,1318].forEach((f,i)=>playTone(f,'square',0.15,0.08,i*0.1)); },
+  // Click del rotor de la ruleta
+  spinClick: () => { playTone(800, 'sine', 0.05, 0.02); },
+  // Error / acusación falsa
+  fail: () => { playTone(200, 'sawtooth', 0.3, 0.1); playTone(150, 'sawtooth', 0.4, 0.1, 0.3); }
+};
+
+function fireConfetti() {
+  const colors = ['#00f3ff','#ff0055','#ffea00','#00ff88'];
+  for(let i=0;i<80;i++){
+    let c = document.createElement('div');
+    c.className = 'confeti';
+    c.style.left = Math.random()*100 + 'vw';
+    c.style.width = (Math.random()*8 + 5) + 'px';
+    c.style.height = (Math.random()*15 + 5) + 'px';
+    c.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDuration = (Math.random()*2 + 2) + 's';
+    c.style.animationDelay = (Math.random()*0.5) + 's';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(), 4000);
+  }
+}
+
+/* ============================================================
+   2. CONFIGURACIÓN DEL JUEGO
+   ============================================================ */
+const KEY = 'ecosabotage_v2';
+const KEY_TUT = 'ecosabotage_tutorial_visto';
+const CFG = {
+  EMPRESA: 'OptimaTech', MAX_JUGADORES: 6, SALDO_INICIAL: 200, COSTO_RULETA: 50, PENALIZACION: 100, INCREMENTO_PUJA: 50,
+  SUBASTA_MIN: 10, COP_POR_KWH: 800, KG_CO2_POR_KWH: 0.126, KG_CO2_POR_ARBOL_ANIO: 22
+};
+
+const TAREAS = [
+  {id:1, titulo:'Ajustar aire a 24°C',     desc:'Deja el aire acondicionado entre 24 y 26 °C.',        min:80, max:180, kwh:1.8},
+  {id:2, titulo:'Desconectar regletas',    desc:'Apaga regletas y cargadores en standby.',             min:40, max:100, kwh:0.9},
+  {id:3, titulo:'Apagar luces al salir',   desc:'Apaga las luces de salas y oficinas vacías.',         min:30, max:80,  kwh:0.6},
+  {id:4, titulo:'Pantalla en modo ahorro', desc:'Activa suspensión automática del monitor.',           min:20, max:60,  kwh:0.4},
+  {id:5, titulo:'Aprovechar luz natural',  desc:'Abre persianas y apaga lámparas en horas de sol.',    min:50, max:120, kwh:1.1}
+];
+const RULETA = [[0,35],[0.5,30],[1.5,22],[3,10],[5,3]];
+const SECTORES = RULETA.map(r => r[0]);
+
+function estadoNuevo(){
+  return {
+    players: [], roles: false, activo: null, mostrarRoles: false, hechas: [],
+    premios: [
+      {id:1, titulo:'Medio día libre',   base:400, alta:0, ganador:null},
+      {id:2, titulo:'Bono de almuerzo',  base:150, alta:0, ganador:null},
+      {id:3, titulo:'Parqueo VIP',       base:250, alta:0, ganador:null}
+    ],
+    subastaFin: null, subastaCerrada: false, ventanaMin: 15, nextId: 1
+  };
+}
+function cargar(){ try{ const r = localStorage.getItem(KEY); if(r) return JSON.parse(r); }catch(e){} return estadoNuevo(); }
+function guardar(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){ toast('No se pudo guardar.','error'); } }
+
+let S = cargar();
+let vista = 'lobby'; let impactoVisible = false;
+let rotacion = 0, girando = false, ultimoResultado = null;
+let tareaModal = null, fotoSubida = null;
+let tutPaso = 0;
+
+const $ = s => document.querySelector(s);
+const esc = t => String(t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const rnd = (a,b) => Math.floor(Math.random()*(b-a+1))+a;
+const nf = n => Number(n).toLocaleString('es-CO');
+const fmt = seg => String(Math.floor(seg/60)).padStart(2,'0')+':'+String(seg%60).padStart(2,'0');
+const yo = () => S.players.find(p => p.name === S.activo);
+const ventanaMs = () => S.ventanaMin*60000;
+const hora = ts => new Date(ts).toLocaleTimeString('es-CO');
+const subastaAbierta = () => S.roles && !S.subastaCerrada && Date.now() < S.subastaFin;
+
+function toast(msg, tipo){
+  const d = document.createElement('div'); d.className = 'toast'+(tipo==='error'?' error':''); d.textContent = msg;
+  $('#toasts').appendChild(d); setTimeout(()=>d.remove(), 4000);
+}
+function popup(texto, color){
+  const d = document.createElement('div'); d.className='flota'; d.textContent = texto; d.style.color = color||'var(--verde)';
+  d.style.left = '50%'; d.style.top = '120px';
+  document.body.appendChild(d); setTimeout(()=>d.remove(), 1900);
+}
+function flashSaldo(){ const s=$('.saldo'); if(s){ s.classList.add('flash'); setTimeout(()=>s.classList.remove('flash'),900);} }
+
+function estadoDe(h){
+  if(h.reportada) return h.estado;
+  return (Date.now()-h.ts > ventanaMs()) ? 'VERIFICADA' : 'PENDIENTE';
+}
+
+function fotoSim(titulo, falsa){
+  const t = esc(titulo), h = hora(Date.now());
+  const svg = falsa
+    ? `<svg xmlns='http://www.w3.org/2000/svg' width='360' height='220'><rect width='360' height='220' fill='#222'/>
+       <g stroke='#ff0055' stroke-width='2' opacity='0.3'>${[0,1,2,3,4,5,6,7].map(i=>`<line x1='${i*60-100}' y1='0' x2='${i*60+120}' y2='220'/>`).join('')}</g>
+       <text x='180' y='100' fill='#ff0055' font-size='26' font-weight='bold' text-anchor='middle' font-family='Arial'>[ IMAGEN STOCK ]</text>
+       <text x='180' y='130' fill='#fff' font-size='14' text-anchor='middle' font-family='Arial'>${t}</text></svg>`
+    : `<svg xmlns='http://www.w3.org/2000/svg' width='360' height='220'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
+       <stop offset='0' stop-color='#0f2a2a'/><stop offset='1' stop-color='#0a1530'/></linearGradient></defs>
+       <rect width='360' height='220' fill='url(#g)'/><rect x='20' y='20' width='320' height='180' rx='6' fill='none' stroke='#00f3ff' stroke-width='2'/>
+       <text x='180' y='95' fill='#fff' font-size='22' font-weight='bold' text-anchor='middle' font-family='Arial'>EVIDENCIA VERIFICADA</text>
+       <text x='180' y='130' fill='#00f3ff' font-size='16' text-anchor='middle' font-family='Arial'>${t}</text>
+       <circle cx='180' cy='160' r='10' fill='#00ff88'/></svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+function render(){
+  $('#cabecera').innerHTML = vCabecera();
+  $('#vista').innerHTML = vista==='lobby' ? vLobby() : !S.roles ? vLobby() : vista==='juego' ? vJuego() : vista==='ruleta' ? vRuleta() : vista==='subasta' ? vSubasta() : vImpacto();
+  if(vista==='impacto' && impactoVisible) animarContadores();
+}
+
+function vCabecera(){
+  const p = yo();
+  const rolTxt = p && p.rol ? (p.rol==='AUDITOR' ? 'Auditor' : 'Trabajador') : null;
+  let h = `<header class="barra">
+    <div class="marca">Eco<span>Sabotage</span><small>${CFG.EMPRESA} · Barranquilla No Se Apaga</small></div>`;
+  
+  if(p){
+    h += `<div class="cuenta"><div class="saldo"><strong>${nf(p.saldo)}</strong> 🪙</div>`;
+    if(rolTxt) h += `<span class="chip ${p.rol==='AUDITOR'?'auditor':''}">${rolTxt}</span>`;
+    h += `<select data-change="cambiar" aria-label="Jugador activo" style="max-width:140px;">
+      ${S.players.map(x=>`<option value="${esc(x.name)}" ${x.name===S.activo?'selected':''}>👤 ${esc(x.name)}</option>`).join('')}</select>
+      </div>`;
+  }
+  h += `</header>`;
+  if(S.roles){
+    const t=(v,n)=>`<button class="${vista===v?'on':''}" data-a="ir" data-v="${v}">${n}</button>`;
+    h += `<nav class="tabs">${t('lobby','Lobby')}${t('juego','Terminal')}${t('ruleta','Ruleta')}${t('subasta','Subastas')}${t('impacto','Metas CREG')}</nav>`;
+  }
+  return h;
+}
+
+function vLobby(){
+  const n = S.players.length, lleno = n >= CFG.MAX_JUGADORES;
+  let h = '';
+  if(!S.roles){
+    h += `<section class="entrada"><h1>Jugadores Conectados: <span style="color:var(--cian)">${n}/${CFG.MAX_JUGADORES}</span></h1>
+      <p>Servidor corporativo de <b>${CFG.EMPRESA}</b>. Al ingresar el sexto jugador, el sistema asignará roles cifrados: 1 Auditor (Impostor) y 5 Trabajadores.</p>
+      <div class="fila" style="justify-content:center; margin-top:20px;">
+        <input type="text" id="nombre" placeholder="Ingresa tu Alias" maxlength="20" ${lleno?'disabled':''} data-enter="unirse" style="padding:15px; font-size:1.1rem; width:250px;">
+        <button class="btn grande" data-a="unirse" ${lleno?'disabled':''}>Inyectar Jugador</button>
+      </div>
+      <p class="fila" style="justify-content:center; margin-top:20px;">
+        <button class="link" data-a="autollenar">[ Auto-Completar Bots (Demo) ]</button>
+        <button class="link" data-a="iniciar" ${n<2?'disabled':''}>[ Forzar Inicio con ${n} ]</button>
+      </p></section>`;
+  } else {
+    h += `<section class="entrada"><h2>Red Local: ${CFG.EMPRESA}</h2>
+      <p>Roles asignados. Usa el selector superior para saltar entre cuentas rápidamente durante la presentación.</p>
+      <label class="fila" style="justify-content:center; cursor:pointer;"><input type="checkbox" data-change="mostrarRoles" ${S.mostrarRoles?'checked':''}> MODO DIOS: Revelar todos los roles</label></section>`;
+  }
+  h += `<div class="asientos">`;
+  for(let i=0;i<CFG.MAX_JUGADORES;i++){
+    const p = S.players[i];
+    if(!p){ h += `<div class="asiento">Slot vacío...</div>`; continue; }
+    const visible = S.roles && (S.mostrarRoles || p.name===S.activo);
+    const rolHtml = !S.roles ? 'Asignando...' : visible
+      ? `<div class="rol ${p.rol==='AUDITOR'?'aud':'trab'}">${p.rol==='AUDITOR'?'[ AUDITOR ]':'[ TRABAJADOR ]'}</div>` : `<div class="rol">ENCRIPTADO</div>`;
+    h += `<div class="asiento lleno ${p.name===S.activo?'activo':''}">
+      <strong>${esc(p.name)}</strong>${S.roles?rolHtml:`<div class="rol">${rolHtml}</div>`}
+      <span class="nota" style="color:var(--ambar)">🪙 ${nf(p.saldo)} Hamons</span>
+      ${S.roles?`<br><button class="link" style="padding:0; margin-top:5px; font-size:0.8rem;" data-a="jugarComo" data-n="${esc(p.name)}">> Override: ${esc(p.name)}</button>`:''}</div>`;
+  }
+  h += `</div><p style="text-align:center; margin-top:40px;"><button class="link rojo" data-a="reiniciar" style="color:var(--magenta)">[ PURGAR SISTEMA (Reiniciar Partida) ]</button></p>`;
+  return h;
+}
+
+function vJuego(){
+  const p = yo(); if(!p) return '';
+  const aud = p.rol==='AUDITOR';
+  let h = `<div class="banner ${aud?'auditor':''}">[ TERMINAL DE ${aud?'AUDITORÍA (IMPOSTOR)':'AHORRO ENERGÉTICO'} ]</div>`;
+  if(!aud){
+    h += `<h2>Misiones Disponibles</h2><p class="nota">Ejecuta misiones, sube la prueba fotográfica y gana Hamons. Ojo: El Auditor vigilará tu foto por ${S.ventanaMin} min.</p><div class="rejilla">`;
+    TAREAS.forEach(t=>{
+      h += `<article class="card"><h3>${t.titulo}</h3><p>${t.desc}</p><p class="meta">🪙 ${t.min}–${t.max} H · ⚡ ${t.kwh} kWh</p>
+        <button class="btn" data-a="abrirTarea" data-id="${t.id}">Ejecutar</button></article>`;
+    });
+    const mias = S.hechas.filter(x=>x.user===p.name).slice(0,6);
+    h += `</div><h2>Registro de Actividad</h2>`;
+    h += mias.length ? `<div class="rejilla">${mias.map(x=>{
+      const e = estadoDe(x);
+      return `<article class="card ${e==='SABOTEADA'?'sabot':''}"><h3>${esc(x.titulo)}</h3><p>⏱ ${hora(x.ts)} · 🪙 ${x.hamons} H</p>${etiqueta(e)}</article>`;
+    }).join('')}</div>` : `<p class="vacio">No hay misiones ejecutadas. Inicia una arriba.</p>`;
+  } else {
+    h += `<h2>Centro de Control CCTV</h2>
+      <div class="fila" style="justify-content:space-between; background:rgba(255,0,85,0.1); padding:10px; border-radius:6px; border:1px solid var(--magenta); margin-bottom:15px;">
+        <p class="nota" style="margin:0; color:#fff;">Vigila las evidencias. Sabotea reportes falsos para robar fondos.</p>
+        <label class="nota" style="margin:0; font-weight:bold; color:var(--magenta);">Time-Window: 
+          <select data-change="ventana" style="border-color:var(--magenta); color:var(--magenta);">
+            <option value="15" ${S.ventanaMin===15?'selected':''}>15 MIN</option><option value="1" ${S.ventanaMin===1?'selected':''}>1 MIN (Demo)</option>
+          </select>
+        </label>
+      </div>`;
+    const recientes = S.hechas.filter(x => Date.now()-x.ts <= ventanaMs() || x.reportada && Date.now()-x.ts <= ventanaMs()*2);
+    h += recientes.length ? `<div class="rejilla cctv-grid">${recientes.map(x=>{
+      const e = estadoDe(x);
+      const accion = e==='PENDIENTE'
+        ? `<button class="btn rojo" style="width:100%; margin-top:10px;" data-a="reportar" data-id="${x.id}">⚠ INICIAR SABOTAJE</button>` : etiqueta(e);
+      return `<article class="card foto ${e==='SABOTEADA'?'sabot':''}">
+        <div class="cctv-overlay">REC</div>
+        <img src="${x.foto}" alt="Foto-prueba">
+        <div class="watermark">AUDITADO ${hora(x.ts)}</div>
+        <div class="cuerpo"><h3>${esc(x.titulo)}</h3><p class="meta">👤 ${esc(x.user)} · 🪙 ${x.hamons} H</p>
+        ${e==='PENDIENTE'?`<div class="reloj" data-ts="${x.ts}">--:--</div>`:''}${accion}</div></article>`;
+    }).join('')}</div>` : `<p class="vacio">Cámaras despejadas. Cambia a un Trabajador para generar actividad.</p>`;
+  }
+  return h;
+}
+
+function etiqueta(e){
+  return e==='SABOTEADA' ? '<span class="etiqueta et-sab">SISTEMA COMPROMETIDO (SABOTEADO)</span>'
+       : e==='VERIFICADA' ? '<span class="etiqueta et-ok">EVIDENCIA VERIFICADA</span>'
+       : '<span class="etiqueta et-pend">ANALIZANDO EVIDENCIA...</span>';
+}
+
+function vRuleta(){
+  const sect = SECTORES.map((s,i)=>`<span class="sector" style="transform:rotate(${i*72+36}deg) translateY(-120px)">x${s}</span>`).join('');
+  let res = '';
+  if(ultimoResultado && !girando){
+    const r = ultimoResultado;
+    res = `<div class="resultado ${r.mult===5?'jackpot':''} ${r.mult===0?'pierde':''}"><strong>${r.mult===5?'JACKPOT x5':'x'+r.mult}</strong>
+      <span>${r.premio>0?'Has minado '+r.premio+' Hamons':'Transacción fallida. Pierdes '+CFG.COSTO_RULETA}</span></div>`;
+  }
+  return `<section class="centro"><h2>Ruleta Cuántica</h2>
+    <p class="nota">Multiplica tus Hamons. Multiplicadores: x0, x0.5, x1.5, x3 y Jackpot x5.</p>
+    <div class="ruleta-wrap"><div class="puntero"></div><div class="rueda" id="rueda" style="transform:rotate(${rotacion}deg)">${sect}</div></div>
+    <button class="btn ambar grande" data-a="girar" ${girando?'disabled':''}>GIRAR ROTOR (Costo: 🪙 ${CFG.COSTO_RULETA})</button>${res}</section>`;
+}
+
+function vSubasta(){
+  const p = yo(), abierta = subastaAbierta();
+  let h = `<h2>Mercado Negro (Subastas)</h2>
+    <div class="fila" style="justify-content:space-between; margin-bottom:15px; border-bottom:1px solid #333; padding-bottom:10px;">
+      <p class="nota" style="margin:0">Los Hamons se bloquean en la puja. Si te superan, los recuperas al instante.</p>
+      ${abierta?`<span class="cierre" data-fin="${S.subastaFin}">Cierre en: --:--</span>`:`<span class="etiqueta et-sab" style="font-size:1.2rem;">MERCADO CERRADO</span>`}
+    </div>
+    <div class="rejilla">`;
+  S.premios.forEach(pr=>{
+    const sig = pr.alta ? pr.alta + CFG.INCREMENTO_PUJA : pr.base;
+    const voy = pr.ganador===p.name;
+    h += `<article class="card ${voy?'gana':''}"><h3>${pr.titulo}</h3>
+      <p class="puja">🪙 ${nf(pr.alta||pr.base)}</p>
+      <p class="meta" style="color:${voy?'var(--verde)':'var(--suave)'}">${pr.ganador ? (abierta?'Top Bidder: ':'Ganador: ')+(voy?'TÚ':esc(pr.ganador)) : 'Sin ofertas'}</p>
+      <button class="btn" style="margin-top:15px;" data-a="pujar" data-id="${pr.id}" ${(!abierta||voy)?'disabled':''}>Pujar +${CFG.INCREMENTO_PUJA} (Va por ${nf(sig)})</button></article>`;
+  });
+  h += `</div>`;
+  if(abierta) h += `<p style="text-align:center; margin-top:30px;"><button class="link" data-a="cerrarSubasta">[ Forzar Cierre de Mercado (Demo) ]</button></p>`;
+  return h;
+}
+
+function calcImpacto(){
+  const validas = S.hechas.filter(h => estadoDe(h)!=='SABOTEADA');
+  const kwh = validas.reduce((a,h)=>a+h.kwh,0);
+  return {kwh, cop:kwh*CFG.COP_POR_KWH, co2:kwh*CFG.KG_CO2_POR_KWH, arboles:kwh*CFG.KG_CO2_POR_KWH/CFG.KG_CO2_POR_ARBOL_ANIO,
+          validas:validas.length, sab:S.hechas.length-validas.length};
+}
+function vImpacto(){
+  if(!impactoVisible){
+    return `<section class="entrada" style="border-color:var(--verde); box-shadow:0 0 20px rgba(0,255,136,0.1);">
+      <h2 style="color:var(--verde); border:none;">Análisis de Sistema (Jornada)</h2><p>Calcula el impacto consolidado de la red ${CFG.EMPRESA}.</p>
+      <button class="btn grande" style="background:var(--verde); box-shadow:0 0 15px rgba(0,255,136,0.4);" data-a="verImpacto">Generar Reporte ODS / CREG</button>
+      <p style="margin-top:20px;"><button class="link" data-a="semanaSim">[ Simular Tráfico de 1 Semana ]</button></p></section>`;
+  }
+  const i = calcImpacto();
+  
+  // Lógica para gráfica CREG visual
+  const metaHistoricaKwh = 50; // Consumo histórico supuesto para la demo
+  const ahorroPorcentaje = Math.min(100, (i.kwh / metaHistoricaKwh) * 100).toFixed(1);
+  const cumpleMeta = ahorroPorcentaje >= 10;
+  
+  return `<h2>Impacto de Red: ${CFG.EMPRESA}</h2>
+    
+    <div class="grafico-creg">
+      <h3 style="color:var(--cian); margin-bottom:5px;">Monitor de Metas CREG (Comisión de Regulación)</h3>
+      <p class="nota">Objetivo: Reducir consumo frente a la línea base histórica para evitar penalizaciones y obtener bonificaciones.</p>
+      <div class="barra-wrap">
+        <div class="meta-linea"></div>
+        <div class="meta-texto">META (10%)</div>
+        <div class="barra-llena" style="width:${ahorroPorcentaje}%; background:${cumpleMeta?'linear-gradient(90deg, var(--cian), var(--verde))':'linear-gradient(90deg, var(--magenta), var(--ambar))'};">
+          ${ahorroPorcentaje}% Ahorro
+        </div>
+      </div>
+      <p style="text-align:right; font-weight:bold; color:${cumpleMeta?'var(--verde)':'var(--ambar)'}; margin:0;">
+        ${cumpleMeta ? '✅ ¡Meta CREG Superada! Empresa bonificada.' : '⚠ Aún no se alcanza el 10% mínimo CREG.'}
+      </p>
+    </div>
+
+    <div class="metricas">
+      <div class="metrica"><strong data-count="${i.kwh}" data-dec="1">0</strong><span>kWh Ahorrados</span></div>
+      <div class="metrica"><strong data-count="${i.cop}" data-dec="0" data-pre="$ ">0</strong><span>COP Ahorrados (Est.)</span></div>
+      <div class="metrica"><strong data-count="${i.co2}" data-dec="1">0</strong><span>kg CO₂ Evitados</span></div>
+      <div class="metrica"><strong data-count="${i.arboles}" data-dec="2">0</strong><span>Árboles/Año Eq.</span></div>
+    </div>
+    <p class="nota" style="text-align:center;">${i.validas} Operaciones Válidas · ${i.sab} Intentos Saboteados por el Auditor (Purgados).</p>
+    
+    <div class="ods">
+      <div><b>ODS 7 · Energía asequible</b>Alivia la presión sobre la red eléctrica en horas pico. Crucial frente a escenarios de racionamiento climático (Fenómeno de El Niño).</div>
+      <div><b>ODS 12 · Consumo responsable</b>Instaura métricas conductuales. Gamificación orientada a reducir desperdicio corporativo bajo auditoría peer-to-peer.</div>
+    </div>
+    <p><button class="link" data-a="semanaSim">[ Simular Tráfico de 1 Semana ]</button></p>`;
+}
+function animarContadores(){
+  document.querySelectorAll('[data-count]').forEach(el=>{
+    const fin = parseFloat(el.dataset.count), dec = +el.dataset.dec, pre = el.dataset.pre||'', t0 = performance.now();
+    (function paso(t){
+      const k = Math.min(1,(t-t0)/1200), v = fin*(1-Math.pow(1-k,3));
+      el.textContent = pre + v.toLocaleString('es-CO',{minimumFractionDigits:dec,maximumFractionDigits:dec});
+      if(k<1) requestAnimationFrame(paso); else el.textContent = pre + fin.toLocaleString('es-CO',{minimumFractionDigits:dec,maximumFractionDigits:dec});
+    })(t0);
+  });
+  // Animar barra CREG
+  setTimeout(() => {
+    const barra = $('.barra-llena');
+    if(barra) barra.style.width = barra.style.width; // Triggers transition if was 0
+  }, 100);
+}
+
+function modalHtml(html, extraClass=''){ $('#modal').innerHTML = `<div class="fondo-modal"><div class="modal ${extraClass}">${html}</div></div>`; }
+function cerrarModal(){ $('#modal').innerHTML=''; tareaModal=null; fotoSubida=null; }
+
+function revelarRol(){
+  const p = yo(); if(!p||!p.rol||p.visto) return;
+  const aud = p.rol==='AUDITOR';
+  
+  if(aud) FX.fail(); else FX.win();
+
+  modalHtml(`<div class="revela ${aud?'aud':''}">
+    <p class="nota">Desencriptando perfil para: ${esc(p.name)}...</p>
+    <h1 class="glitch-text" data-text="${aud?'IMPOSTOR (AUDITOR)':'TRABAJADOR ECO'}">${aud?'IMPOSTOR (AUDITOR)':'TRABAJADOR ECO'}</h1>
+    <p class="nota" style="font-size:1.1rem; margin-top:20px; color:#fff;">
+      ${aud?
+        'Tu misión es VIGILAR. <br><br>Revisa las fotos en las cámaras CCTV (15 min de ventana). Si detectas falsedad, SABOTEA el reporte para robar sus Hamons. Si fallas, la red te penalizará con -'+CFG.PENALIZACION+' Hamons.' :
+        'Tu misión es AHORRAR ENERGÍA. <br><br>Ejecuta tareas reales en la oficina y sube fotos válidas para minar Hamons. ¡Cuidado! El Auditor revisará tus reportes. Usa tus Hamons para ganar recompensas reales.'
+      }
+    </p>
+    <button class="btn grande" style="margin-top:20px; width:100%; ${aud?'background:var(--magenta); box-shadow:0 0 15px var(--magenta); color:#fff;':''}" data-a="entendido">ACEPTAR ROL</button></div>`, 
+    aud ? 'glitch-modal' : 'shield-modal');
+}
+
+/* ============================================================
+   TUTORIAL DE INICIO (ONBOARDING) · 3 pasos ilustrados
+   ============================================================ */
+const TUTORIAL = [
+  {
+    color:'var(--cian)', titulo:'Paso 1 · Misiones y Hamons 🪙',
+    texto:'Completa tareas reales de ahorro de energía, sube tu foto de prueba y gana <b>Hamons</b> aleatorios.',
+    svg:`<svg class="tut-ilustra" viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg">
+      <rect x="10" y="20" width="110" height="90" rx="8" fill="rgba(0,243,255,0.08)" stroke="#00f3ff" stroke-width="2"/>
+      <circle cx="65" cy="52" r="14" fill="none" stroke="#ffea00" stroke-width="3"/>
+      <path d="M65 38v-8M65 74v-8M51 52h-8M87 52h-8" stroke="#ffea00" stroke-width="3" stroke-linecap="round"/>
+      <rect x="35" y="82" width="60" height="14" rx="3" fill="#00ff88"/>
+      <text x="65" y="93" fill="#000" font-size="10" font-weight="bold" text-anchor="middle" font-family="Arial">24°C</text>
+      <path d="M130 65h36" stroke="#00f3ff" stroke-width="3" stroke-linecap="round"/>
+      <path d="M158 56l10 9-10 9" fill="none" stroke="#00f3ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="225" cy="50" r="26" fill="rgba(255,234,0,0.15)" stroke="#ffea00" stroke-width="3"/>
+      <text x="225" y="59" fill="#ffea00" font-size="26" font-weight="bold" text-anchor="middle" font-family="Arial">H</text>
+      <circle cx="262" cy="86" r="16" fill="rgba(255,234,0,0.15)" stroke="#ffea00" stroke-width="2.5"/>
+      <text x="262" y="92" fill="#ffea00" font-size="16" font-weight="bold" text-anchor="middle" font-family="Arial">H</text>
+      <circle cx="200" cy="92" r="12" fill="rgba(255,234,0,0.15)" stroke="#ffea00" stroke-width="2"/>
+      <text x="200" y="97" fill="#ffea00" font-size="12" font-weight="bold" text-anchor="middle" font-family="Arial">H</text>
+    </svg>`
+  },
+  {
+    color:'var(--magenta)', titulo:'Paso 2 · El Auditor ⚠',
+    texto:'Uno de ustedes es el <b>Auditor (Impostor)</b>. Vigila tus fotos durante 15 minutos y sabotea los reportes falsos para robar Hamons. Si acusa una foto real, pierde 100.',
+    svg:`<svg class="tut-ilustra" viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="22" width="130" height="86" rx="6" fill="#0a0c1a" stroke="#ff0055" stroke-width="2"/>
+      <rect x="30" y="32" width="110" height="66" fill="rgba(255,0,85,0.08)"/>
+      <circle cx="85" cy="65" r="18" fill="none" stroke="#ff0055" stroke-width="3"/>
+      <circle cx="85" cy="65" r="6" fill="#ff0055"/>
+      <circle cx="132" cy="40" r="4" fill="#ff0055" class="tut-rayo"/>
+      <text x="124" y="46" fill="#ff0055" font-size="8" font-family="monospace" text-anchor="end">REC</text>
+      <path d="M165 65h30" stroke="#ff0055" stroke-width="3" stroke-linecap="round"/>
+      <path d="M187 56l10 9-10 9" fill="none" stroke="#ff0055" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M245 28l-34 62h68z" fill="rgba(255,0,85,0.15)" stroke="#ff0055" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M245 52v22" stroke="#ff0055" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="245" cy="82" r="3.5" fill="#ff0055"/>
+    </svg>`
+  },
+  {
+    color:'var(--ambar)', titulo:'Paso 3 · Recompensas 🎁',
+    texto:'Multiplica tus Hamons en la <b>Ruleta</b> (hasta x5) y úsalos en las <b>Subastas</b> para ganar premios reales de la empresa.',
+    svg:`<svg class="tut-ilustra" viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="80" cy="68" r="48" fill="none" stroke="#1b2048" stroke-width="6"/>
+      <path d="M80 68L80 20A48 48 0 0 1 125.6 53.2z" fill="#ff0055"/>
+      <path d="M80 68L125.6 53.2A48 48 0 0 1 108 108.8z" fill="#1d2a6e"/>
+      <path d="M80 68L108 108.8A48 48 0 0 1 52 108.8z" fill="#00f3ff"/>
+      <path d="M80 68L52 108.8A48 48 0 0 1 34.4 53.2z" fill="#ffea00"/>
+      <path d="M80 68L34.4 53.2A48 48 0 0 1 80 20z" fill="#00ff88"/>
+      <circle cx="80" cy="68" r="8" fill="#0a0c1a" stroke="#fff" stroke-width="2"/>
+      <path d="M80 12l-8-10h16z" fill="#fff"/>
+      <rect x="185" y="52" width="80" height="58" rx="4" fill="rgba(255,234,0,0.12)" stroke="#ffea00" stroke-width="3"/>
+      <rect x="185" y="52" width="80" height="14" fill="rgba(255,234,0,0.3)" stroke="#ffea00" stroke-width="3"/>
+      <path d="M225 52v58" stroke="#ffea00" stroke-width="3"/>
+      <path d="M225 52c-14-24-34-8-14 0M225 52c14-24 34-8 14 0" fill="none" stroke="#ffea00" stroke-width="3" stroke-linecap="round"/>
+    </svg>`
+  }
+];
+
+function renderTutorial(){
+  const t = TUTORIAL[tutPaso], ultimo = tutPaso === TUTORIAL.length-1;
+  modalHtml(`<div class="tut-paso">
+    <h2 style="margin-top:0; color:var(--cian); text-align:center;">Cómo jugar EcoSabotage</h2>
+    ${t.svg}
+    <h3 class="tut-titulo" style="color:${t.color}; text-shadow:0 0 10px ${t.color};">${t.titulo}</h3>
+    <p class="tut-texto">${t.texto}</p>
+    <div class="tut-puntos">${TUTORIAL.map((_,i)=>`<i class="${i===tutPaso?'on':''}"></i>`).join('')}</div>
+    <div class="tut-nav">
+      ${tutPaso>0?`<button class="link" data-a="tutAnt">‹ Atrás</button>`:`<button class="link" data-a="tutFin">Saltar</button>`}
+      ${ultimo
+        ? `<button class="btn grande" style="background:var(--verde); box-shadow:0 0 15px rgba(0,255,136,0.5);" data-a="tutFin">¡EMPEZAR A JUGAR!</button>`
+        : `<button class="btn grande" data-a="tutSig">Siguiente ›</button>`}
+    </div>
+  </div>`, 'shield-modal');
+}
+
+function tutorialVisto(){ try{ return localStorage.getItem(KEY_TUT)==='1'; }catch(e){ return false; } }
+function marcarTutorialVisto(){ try{ localStorage.setItem(KEY_TUT,'1'); }catch(e){} }
+
+/* ============================================================
+   6. ACCIONES (lógica del juego)
+   ============================================================ */
+const A = {
+  ir(d){ vista = d.v; render(); },
+  
+  mostrarTutorial(){ initAudio(); tutPaso = 0; renderTutorial(); },
+  tutSig(){ if(tutPaso < TUTORIAL.length-1){ tutPaso++; FX.spinClick(); renderTutorial(); } },
+  tutAnt(){ if(tutPaso > 0){ tutPaso--; FX.spinClick(); renderTutorial(); } },
+  tutFin(){
+    marcarTutorialVisto(); FX.coin(); cerrarModal();
+    revelarRol(); // si hay un rol pendiente de mostrar, aparece ahora
+  },
+
+  unirse(){
+    initAudio();
+    const inp = $('#nombre'); const name = (inp.value||'').trim();
+    if(!name) return toast('Protocolo de nombre vacío. Ingresa un alias.','error');
+    if(S.players.some(p=>p.name.toLowerCase()===name.toLowerCase())) return toast('Alias duplicado en la red.','error');
+    S.players.push({name, rol:null, saldo:CFG.SALDO_INICIAL, visto:false});
+    if(!S.activo) S.activo = name;
+    if(S.players.length>=CFG.MAX_JUGADORES) asignarRoles();
+    guardar(); render(); if(S.roles) revelarRol();
+  },
+  autollenar(){ initAudio(); ['Cypher','Nova','Glitch','Neo','Trinity','Link'].forEach(n=>{
+      if(S.players.length<CFG.MAX_JUGADORES && !S.players.some(p=>p.name===n)) S.players.push({name:n, rol:null, saldo:CFG.SALDO_INICIAL, visto:false});
+    });
+    if(!S.activo) S.activo = S.players[0].name;
+    if(S.players.length>=CFG.MAX_JUGADORES) asignarRoles();
+    guardar(); render(); if(S.roles) revelarRol();
+  },
+  iniciar(){ initAudio(); if(S.players.length<2) return; asignarRoles(); guardar(); render(); revelarRol(); },
+  jugarComo(d){ S.activo = d.n; guardar(); render(); revelarRol(); },
+  entendido(){ const p=yo(); if(p) p.visto = true; guardar(); cerrarModal(); vista='juego'; render(); },
+  reiniciar(){ if(confirm('¿Purgar base de datos y reiniciar la partida?')){ localStorage.removeItem(KEY); location.reload(); } },
+
+  abrirTarea(d){
+    const t = TAREAS.find(x=>x.id==d.id); tareaModal = t; fotoSubida = null;
+    modalHtml(`
+      <h3 style="color:var(--cian); margin-top:0;">${t.titulo}</h3>
+      <p class="nota">Recompensa Estimada: 🪙 ${t.min}–${t.max} H</p>
+      <div style="background:rgba(0,0,0,0.4); padding:15px; border-radius:6px; border:1px solid #333; margin-bottom:15px;">
+        <label class="nota" style="color:#fff; display:block; margin-bottom:10px;">Subir Evidencia (Foto):</label>
+        <input type="file" id="archivo" accept="image/*" data-change="archivo" style="width:100%; border:none; padding:0; background:transparent;">
+        <div id="prev" style="margin-top:10px;"><p class="nota" style="font-size:0.8rem;">[ Sin evidencia - Se generará simulación ]</p></div>
+      </div>
+      <label class="fila nota" style="cursor:pointer; background:rgba(255,0,85,0.1); padding:10px; border-radius:4px; border:1px dashed var(--magenta); color:#fff;">
+        <input type="checkbox" id="chkFalsa" style="transform:scale(1.2);"> Inyectar Evidencia Falsa (Para probar al Auditor)
+      </label>
+      <div class="fila" style="margin-top:20px; justify-content:space-between;">
+        <button class="link" style="color:var(--suave)" data-a="cerrarModal">Cancelar</button>
+        <button class="btn grande" data-a="enviarPrueba">TRANSMITIR REPORTE</button>
+      </div>`);
+  },
+  cerrarModal(){ cerrarModal(); },
+  enviarPrueba(){
+    const p = yo(), t = tareaModal; if(!p||!t) return;
+    const falsa = $('#chkFalsa').checked;
+    const ganados = rnd(t.min, t.max);
+    S.hechas.unshift({id:S.nextId++, user:p.name, tid:t.id, titulo:t.titulo, kwh:t.kwh, hamons:ganados,
+      foto: fotoSubida || fotoSim(t.titulo, falsa), falsa, ts:Date.now(), reportada:false, estado:'PENDIENTE'});
+    p.saldo += ganados;
+    FX.coin();
+    guardar(); cerrarModal(); render(); flashSaldo(); popup('+'+ganados+' 🪙');
+  },
+
+  reportar(d){
+    const aud = yo(), h = S.hechas.find(x=>x.id==d.id);
+    if(!aud||!h) return;
+    if(estadoDe(h)!=='PENDIENTE'){ FX.fail(); return toast('Ventana de CCTV expirada.','error'); }
+    h.reportada = true;
+    if(h.falsa){
+      const trab = S.players.find(p=>p.name===h.user);
+      const robo = Math.min(h.hamons, trab.saldo);
+      trab.saldo -= robo; aud.saldo += robo; h.estado = 'SABOTEADA';
+      FX.alarm();
+      toast(`SABOTAJE EXITOSO: Robaste 🪙 ${robo} a ${trab.name}.`); popup('+'+robo+' 🪙','var(--magenta)');
+    } else {
+      aud.saldo = Math.max(0, aud.saldo - CFG.PENALIZACION); h.estado = 'VERIFICADA';
+      FX.fail();
+      toast(`FALLO DE SISTEMA: Evidencia válida. Penalización: -${CFG.PENALIZACION} 🪙`,'error'); popup('-'+CFG.PENALIZACION,'var(--magenta)');
+    }
+    guardar(); render(); flashSaldo();
+  },
+
+  girar(){
+    const p = yo(); if(!p||girando) return;
+    if(p.saldo < CFG.COSTO_RULETA){ FX.fail(); return toast('Fondos insuficientes (🪙 '+CFG.COSTO_RULETA+' req).','error'); }
+    p.saldo -= CFG.COSTO_RULETA;
+    
+    let tot = RULETA.reduce((a,r)=>a+r[1],0), x = Math.random()*tot, mult = 0;
+    for(const [m,w] of RULETA){ if((x-=w)<0){ mult=m; break; } }
+    const premio = Math.floor(CFG.COSTO_RULETA*mult);
+    
+    const idx = SECTORES.indexOf(mult);
+    const destino = rotacion - (rotacion%360) + 360*8 + (360-(idx*72+36));
+    girando = true; ultimoResultado = null; guardar(); render();
+    const rueda = $('#rueda'); rueda.getBoundingClientRect();
+    rotacion = destino;
+    rueda.style.transform = `rotate(${destino}deg)`;
+    
+    // Sonido de giro (clicks del rotor)
+    let ticks = 0;
+    let spinInterval = setInterval(()=>{ FX.spinClick(); ticks++; if(ticks>15) clearInterval(spinInterval); }, 200);
+
+    setTimeout(()=>{
+      p.saldo += premio; girando = false; ultimoResultado = {mult, premio};
+      
+      // Fanfarria si ganas (x1.5 o más); confeti en Jackpot
+      if(mult >= 1.5) { FX.win(); if(mult === 5) fireConfetti(); }
+      else if (mult === 0) FX.fail();
+      else FX.coin();
+
+      guardar(); render(); flashSaldo();
+      popup(premio>0?'+'+premio+' 🪙':'x0', premio>0?'var(--verde)':'var(--magenta)');
+    }, 4000); // Coincide con la transición CSS de 4s
+  },
+
+  pujar(d){
+    const p = yo(), pr = S.premios.find(x=>x.id==d.id);
+    if(!p||!pr) return;
+    if(!subastaAbierta()){ FX.fail(); return toast('Mercado cerrado.','error'); }
+    const monto = pr.alta ? pr.alta + CFG.INCREMENTO_PUJA : pr.base;
+    if(pr.ganador===p.name){ FX.fail(); return toast('Ya lideras esta oferta.','error'); }
+    if(p.saldo < monto){ FX.fail(); return toast('Fondos insuficientes (🪙 '+nf(monto)+').','error'); }
+    if(pr.ganador){ const ant = S.players.find(x=>x.name===pr.ganador); if(ant) ant.saldo += pr.alta; }
+    p.saldo -= monto; pr.alta = monto; pr.ganador = p.name;
+    FX.coin();
+    guardar(); render(); flashSaldo(); toast('Liderando oferta: '+pr.titulo);
+  },
+  cerrarSubasta(){ 
+    S.subastaCerrada = true; guardar(); render(); toast('Mercado Subastas Cerrado.'); 
+    sonidoCierreSubasta();
+  },
+
+  verImpacto(){ impactoVisible = true; render(); },
+  semanaSim(){
+    S.players.filter(p=>p.rol==='TRABAJADOR').forEach(p=>{
+      for(let i=0;i<4;i++){
+        const t = TAREAS[rnd(0,TAREAS.length-1)], g = rnd(t.min,t.max);
+        S.hechas.push({id:S.nextId++, user:p.name, tid:t.id, titulo:t.titulo, kwh:t.kwh, hamons:g, foto:fotoSim(t.titulo,false),
+          falsa:false, ts:Date.now()-ventanaMs()-rnd(60000,3600000), reportada:false, estado:'VERIFICADA'});
+        p.saldo += g;
+      }
+    });
+    impactoVisible = true; guardar(); render(); toast('Tráfico Simulado Inyectado.');
+  }
+};
+
+// Al cerrar la subasta: monedas + fanfarria si el jugador activo ganó algún premio
+function sonidoCierreSubasta(){
+  const p = yo();
+  const gane = p && S.premios.some(pr => pr.ganador === p.name);
+  if(gane){ FX.coin(); setTimeout(()=>FX.win(), 350); }
+  else FX.win();
+  fireConfetti();
+}
+
+function asignarRoles(){
+  const idx = S.players.map((_,i)=>i);
+  for(let i=idx.length-1;i>0;i--){ const j=rnd(0,i); [idx[i],idx[j]]=[idx[j],idx[i]]; }
+  S.players.forEach((p,i)=>{ p.rol = (i===idx[0]) ? 'AUDITOR' : 'TRABAJADOR'; p.visto = false; });
+  S.roles = true; vista = 'juego';
+  S.subastaFin = Date.now() + CFG.SUBASTA_MIN*60000;
+}
+
+/* ============================================================
+   7. EVENTOS Y RELOJ
+   ============================================================ */
+document.addEventListener('click', e=>{
+  initAudio();
+  const b = e.target.closest('[data-a]'); if(!b || b.disabled) return;
+  const f = A[b.dataset.a]; if(f) f(b.dataset);
+});
+document.addEventListener('keydown', e=>{
+  initAudio();
+  if(e.key==='Enter' && e.target.dataset && e.target.dataset.enter) A[e.target.dataset.enter]();
+});
+document.addEventListener('change', e=>{
+  const k = e.target.dataset && e.target.dataset.change; if(!k) return;
+  if(k==='cambiar'){ S.activo = e.target.value; guardar(); render(); revelarRol(); }
+  if(k==='mostrarRoles'){ S.mostrarRoles = e.target.checked; guardar(); render(); }
+  if(k==='ventana'){ S.ventanaMin = +e.target.value; guardar(); render(); }
+  if(k==='archivo'){
+    const file = e.target.files[0]; if(!file) return;
+    const rd = new FileReader();
+    rd.onload = () => { const img = new Image(); img.onload = () => {
+      const w = 400, h = Math.round(img.height*w/img.width), c = document.createElement('canvas'); c.width=w; c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h); fotoSubida = c.toDataURL('image/jpeg',.7);
+      $('#prev').innerHTML = `<img src="${fotoSubida}" alt="Previa" style="width:100%; border-radius:4px; margin-top:10px; border:1px solid var(--cian);">`;
+    }; img.src = rd.result; };
+    rd.readAsDataURL(file);
+  }
+});
+window.addEventListener('storage', e=>{ if(e.key===KEY){ S = cargar(); if(!girando) render(); } });
+
+setInterval(()=>{
+  let redibujar = false;
+  document.querySelectorAll('[data-ts]').forEach(el=>{
+    const rest = Math.max(0, Math.ceil((+el.dataset.ts + ventanaMs() - Date.now())/1000));
+    el.textContent = fmt(rest); el.classList.toggle('urgente', rest<60);
+    if(rest===0) redibujar = true;
+  });
+  const f = document.querySelector('[data-fin]');
+  if(f){
+    const rest = Math.max(0, Math.ceil((+f.dataset.fin - Date.now())/1000));
+    f.textContent = `Cierre en: ${fmt(rest)}`;
+    if(rest===0){ S.subastaCerrada = true; guardar(); redibujar = true; sonidoCierreSubasta(); }
+  }
+  if(redibujar && !girando) render();
+}, 1000);
+
+render();
+// Primera visita: tutorial de inicio. Después, el rol pendiente (si lo hay).
+if(!tutorialVisto()){ A.mostrarTutorial(); }
+else if(S.roles){ revelarRol(); }
+</script>
+</body>
+</html>
